@@ -1,0 +1,22 @@
+{
+  "name": "teact",
+  "version": "1.0.0",
+  "description": "Write React by TypeScript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zzyoung/Teact.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Zzyoung/Teact/issues"
+  },
+  "homepage": "https://github.com/Zzyoung/Teact#readme",
+  "devDependencies": {
+    "typescript": "^2.9.1"
+  }
+}
