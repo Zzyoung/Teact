@@ -10,10 +10,38 @@ interface element {
   [event: string]: any;
 }
 
+interface instance {
+  dom: HTMLElement | Text;
+  element: element;
+  childInstances?: instance[];
+}
+
 const TEXTELEMENT = 'TEXT ELEMENT';
 type TEXTELEMENT = typeof TEXTELEMENT;
+// start
+let rootInstance: instance | null = null;
 
-function render(element:element, parentDom: HTMLElement | Text) {
+function render(element: element, container: HTMLElement) {
+  const prevInstance = rootInstance;
+  const nextInstance = reconcile(container, prevInstance, element);
+  rootInstance = nextInstance;
+}
+
+function reconcile(parentDom: HTMLElement, instance: instance | null, element: element): instance {
+  const newInstance = instantiate(element); // element -> instance
+  // 初始化时虚拟主干dom为null
+  if (instance === null) {
+    parentDom.appendChild(newInstance.dom);
+  } else {
+    parentDom.replaceChild(newInstance.dom, instance.dom);
+  }
+
+  return newInstance;
+}
+// end
+
+// 递归instantiate
+function instantiate(element:element): instance {
   const { type, props } = element;
 
   // create DOM element
@@ -35,15 +63,21 @@ function render(element:element, parentDom: HTMLElement | Text) {
   Object.keys(props).filter(isAttribute).forEach(name => {
     dom[name] = props[name];
   });
+  // dom 构造完成
 
   // Render children
   const childElements = props.children;
+  let instance: instance = { dom, element };
+
   if (typeof childElements !== 'undefined') {
-    childElements.forEach(childElement => render(childElement, dom));
+    const childInstances = childElements.map(instantiate);
+    const childDoms = childInstances.map(childInstance => childInstance.dom);
+
+    childDoms.forEach(childDom => dom.appendChild(childDom));
+    instance.childInstances = childInstances;
   }
 
-  // append to parent
-  parentDom.appendChild(dom);
+  return instance;
 }
 
 function createTextElement(value:string):element {
