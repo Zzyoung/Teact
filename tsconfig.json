@@ -1,28 +1,27 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "system",
+    "module": "esnext",
     "target": "es5",
     "lib": [
       "es6",
       "dom"
     ],
-    "allowJs": true,
-    "outFile": "dist/teact.js",
+    "allowJs": false,
+    "outDir": "dist",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,
+    "jsx": "react",
+    "rootDir": "src",
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true
   },
   "exclude": [
     "node_modules",
-    "build"
-  ],
-  "include": [
-    "src/**/*"
+    "dist"
   ]
 }
